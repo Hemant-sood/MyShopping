@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if( dataSnapshot.child(phoneNo.getText().toString()).exists() ){
+                if( dataSnapshot.child(phoneNo.getText().toString().trim()).exists() ){
                     Toast.makeText(getApplicationContext(),"Phone number already exists",Toast.LENGTH_LONG).show();
                     isPhoneExist = true;
                     pd.dismiss();
@@ -125,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if( !isPhoneExist ){
 
-            mAuth.createUserWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
+            mAuth.createUserWithEmailAndPassword(emailId.getText().toString().trim(), password.getText().toString())
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -141,9 +141,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 String time = simpleDateFormat1.format(calendar.getTime());
 
                                 HashMap<String,Object> hashMap = new HashMap<>();
-                                hashMap.put("Full Name",fullName.getText().toString());
-                                hashMap.put("Phone",phoneNo.getText().toString());
-                                hashMap.put("Password",password.getText().toString());
+                                hashMap.put("Full Name",fullName.getText().toString().trim());
+                                hashMap.put("Phone",phoneNo.getText().toString().trim());
+                                hashMap.put("Password",password.getText().toString().trim());
                                 hashMap.put("Date",date);
                                 hashMap.put("Time",time);
 
