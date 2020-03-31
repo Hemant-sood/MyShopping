@@ -5,7 +5,6 @@
     android:id="@+id/seller"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context=".RegisterActivity">
 
     <ImageView
@@ -19,12 +18,13 @@
         app:srcCompat="@drawable/cart" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+        android:fontFamily="@font/aclonica"
         android:shadowColor="@color/cart_color"
-        android:text="MyShop"
+        android:text="MyShopping"
         android:textColor="@color/cart_color"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
@@ -42,8 +42,8 @@
         android:hint="Email id"
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
-        android:textColor="@color/whitecolor"
-        android:textColorHint="@color/whitecolor"
+        android:textColor="@color/cart_color"
+        android:textColorHint="@color/cart_color"
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="0.0"
@@ -57,11 +57,11 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/input"
         android:ems="10"
-        android:hint="password"
+        android:hint="Password"
         android:inputType="textPassword"
         android:paddingLeft="10dp"
-        android:textColor="@color/whitecolor"
-        android:textColorHint="@color/whitecolor"
+        android:textColor="@color/cart_color"
+        android:textColorHint="@color/cart_color"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -108,8 +108,8 @@
         android:hint="Phone number"
         android:inputType="phone"
         android:paddingLeft="10dp"
-        android:textColor="@color/whitecolor"
-        android:textColorHint="@color/whitecolor"
+        android:textColor="@color/cart_color"
+        android:textColorHint="@color/cart_color"
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -135,7 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="241dp" />
+        app:layout_constraintGuide_begin="298dp" />
 
     <EditText
         android:id="@+id/editText4"
@@ -147,8 +147,8 @@
         android:hint="Full Name"
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
-        android:textColor="@color/whitecolor"
-        android:textColorHint="@color/whitecolor"
+        android:textColor="@color/cart_color"
+        android:textColorHint="@color/cart_color"
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="0.0"

@@ -174,13 +174,13 @@ public class AddNewProductActivity extends AppCompatActivity {
         DatabaseReference databaseReference1 = databaseReference.child(imageNameForStorage);
 
         HashMap<String,Object> map = new HashMap<>();
-        map.put("Storage Url", downloadUri);
+        map.put("Url", downloadUri);
         map.put("Category", productCategoryText);
         map.put("Name", productNameText);
         map.put("Description", productDescriptionText);
         map.put("Price", productPriceText);
         map.put("Date", date);
-        map.put("TIme", time);
+        map.put("Time", time);
 
         Task task = databaseReference1.setValue(map);
 

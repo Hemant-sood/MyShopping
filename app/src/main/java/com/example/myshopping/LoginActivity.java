@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.UnicodeSetSpanner;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,24 +38,38 @@ public class LoginActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private TextView iAmSeller, iAmNotSeller;
     private boolean seller = false;
-
+    private TextView forgotpassword;
+    private ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         email = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
         iAmSeller = findViewById(R.id.textView4);
         iAmNotSeller = findViewById(R.id.textView5);
         login = findViewById(R.id.button);
+        forgotpassword = findViewById(R.id.textView3);
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("User/");
 
+
+        forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if( isFilled() ){
+                    pd = new ProgressDialog(LoginActivity.this);
+                    pd.setTitle("Login");
+                    pd.setMessage("Checking login credential...");
+                    pd.show();
                    checkEmailPass();
                 }
                 else{
@@ -99,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                              checkIsSeller();
                          }
                          else{
+                             pd.dismiss();
                              Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
                          }
                      }
@@ -106,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
                         Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG) .show();
                     }
                 });
@@ -129,6 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                 if( dataSnapshot.child(email.getText().toString().replace('.','_')).exists()){
                     Toast.makeText(getApplicationContext(),toastMsg + "logged in Sucess",Toast.LENGTH_LONG).show();
 
+                    pd.dismiss();
                     if( seller ){
                         Intent i = new Intent(getApplicationContext(), HomeSellerActivity.class);
                         startActivity(i);
@@ -140,12 +160,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
                 else{
+                    pd.dismiss();
                     Toast.makeText(getApplicationContext(),toastMsg + "does not exist",Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                pd.dismiss();
                 Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
