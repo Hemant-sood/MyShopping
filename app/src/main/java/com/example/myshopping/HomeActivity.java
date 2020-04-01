@@ -2,6 +2,7 @@ package com.example.myshopping;
 
 import android.app.usage.StorageStatsManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,6 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -40,6 +44,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,6 +59,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<ProductProperties> list;
     private DatabaseReference databaseReference;
     private ProductPropertiesAdapter productPropertiesAdapter;
+    private StorageReference storageReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +108,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+ 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUserDetailsOnNav();
+    }
 
     private void getAllImages() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -127,6 +139,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void setUserDetailsOnNav() {
 
+        //userPhoto
+
+
         FirebaseUser currentUser= mAuth.getCurrentUser();
         String email = currentUser.getEmail();
 
@@ -139,6 +154,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String name = dataSnapshot.child("Full Name").getValue().toString();
                 uerFullName.setText(name);
+                Picasso.get().load(dataSnapshot.child("Url").getValue().toString()).placeholder(R.drawable.user).into(userPhoto);
             }
 
             @Override
@@ -178,6 +194,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         else if( id == R.id.nav_settings){
             Intent i = new Intent(getApplicationContext(),SettingsActivity.class);
+            i.putExtra("Person","User");
             startActivity(i);
         }
         else if( id == R.id.nav_logout){
@@ -194,4 +211,5 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
 }
