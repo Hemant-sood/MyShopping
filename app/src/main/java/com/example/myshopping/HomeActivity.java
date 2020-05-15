@@ -154,7 +154,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String name = dataSnapshot.child("Full Name").getValue().toString();
                 uerFullName.setText(name);
-                Picasso.get().load(dataSnapshot.child("Url").getValue().toString()).placeholder(R.drawable.user).into(userPhoto);
+                if( dataSnapshot.child("Url").exists())
+                    Picasso.get().load(dataSnapshot.child("Url").getValue().toString()).placeholder(R.drawable.user).into(userPhoto);
             }
 
             @Override
